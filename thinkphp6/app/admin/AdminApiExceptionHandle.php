@@ -2,7 +2,9 @@
 
 namespace app\admin;
 
+use app\common\lib\error\ApiErrDesc;
 use think\exception\Handle;
+use think\exception\ValidateException;
 use think\facade\Env;
 use think\Response;
 use Throwable;
@@ -40,9 +42,13 @@ class AdminApiExceptionHandle extends Handle
             'previous' => $e->getPrevious(),
         ] : [];
         // 添加自定义异常处理机制
-        if ($e instanceof \Exception) {
-            return app('json')->code(200)->make(400, $e->getMessage(), $massageData);
+        $default_code = ApiErrDesc::ERROR;
+        if ($e instanceof ValidateException) {
+            return app('json')->make($e->getMessage(), $default_code[0], $massageData);
+        } elseif ($e instanceof \Exception) {
+            return app('json')->make($e->getMessage(), $default_code[0], $massageData);
         }
+        return parent::render($request, $e);
     }
 
 }
