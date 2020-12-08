@@ -3,8 +3,10 @@
 namespace app\admin\controller;
 
 use app\admin\validate\LoginValidate;
-use app\common\base\BaseController;
+use app\BaseController;
+use app\repositories\admin\AdminUserRepository;
 use think\facade\App;
+
 /**
  * 后台登陆
  * Class Login
@@ -12,6 +14,7 @@ use think\facade\App;
  */
 class Login extends BaseController
 {
+    const USER_TYPE = 'admin';
 
     /**
      * Login constructor.
@@ -24,15 +27,18 @@ class Login extends BaseController
 
     /**
      * 登陆
+     *
+     * @param AdminUserRepository $adminUserRepository
      * @return string
      */
-    public function login()
+    public function login(AdminUserRepository $adminUserRepository)
     {
-        [$account, $password] = $this->parameter(['account', 'pwd']);
+        [$account, $password] = $this->parameter(['username', 'password']);
 
         validate(LoginValidate::class)->check(['account' => $account, 'pwd' => $password]);
+        $ret = $adminUserRepository->login($account, $password, self::USER_TYPE);
 
-        return $this->success();
+        return $this->success('登录成功', $ret);
     }
 
 }

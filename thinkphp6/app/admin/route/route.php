@@ -9,7 +9,8 @@ use app\http\middleware\AllowOriginMiddleware;
  * 无需授权的接口
  */
 Route::group(function () {
-
+    //用户名密码登录
+    Route::post('login', 'Login/login');
 })->middleware(AllowOriginMiddleware::class);
 
 /**

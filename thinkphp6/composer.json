@@ -30,7 +30,9 @@
         "topthink/think-multi-app": "^1.0",
         "firebase/php-jwt": "^5.2",
         "aliyuncs/oss-sdk-php": "^2.4",
-        "qcloud/cos-sdk-v5": "^2.1"
+        "qcloud/cos-sdk-v5": "^2.1",
+        "topthink/think-migration": "^3.0",
+        "casbin/think-authz": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
